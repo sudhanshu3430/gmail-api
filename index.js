@@ -3,23 +3,31 @@ const { google } = require('googleapis');
 const path = require('path');
 const fs = require('fs');
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+// const CLIENT_ID = process.env.CLIENT_ID;
+// const CLIENT_SECRET = process.env.CLIENT_SECRET;
+// const REDIRECT_URI = process.env.REDIRECT_URI;
+// const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+const SERVICE_AUTH_PATH = process.env.SERVICE_AUTH_PATH;
+
+const SERVICE_ACCOUNT_FILE = path.join(__dirname, SERVICE_AUTH_PATH);
 
 
-const oauth2Client = new google.auth.OAuth2(
-    CLIENT_ID,
-    CLIENT_SECRET,
-    REDIRECT_URI
-)
+// const oauth2Client = new google.auth.OAuth2(
+//     CLIENT_ID,
+//     CLIENT_SECRET,
+//     REDIRECT_URI
+// )
 
-oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+const auth = new google.auth.GoogleAuth({
+    keyFile: SERVICE_ACCOUNT_FILE,
+    scopes: ['https://www.googleapis.com/auth/drive']
+});
+
+// oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 const drive = google.drive({
     version: 'v3',
-    auth: oauth2Client
+    auth: auth
 });
 
 const filePath = path.join(__dirname, 'list-users.png');
@@ -29,7 +37,7 @@ async function uploadFile() {
     try {
         const response = await drive.files.create({
             requestBody: {
-                name: 'sample.png',
+                name: 'sample-new.png',
                 mimeType: 'image/png'
             },
             media: {
@@ -73,4 +81,4 @@ async function downloadFile(fileId, dest) {
 }
 
 // uploadFile();
-downloadFile('1wN5nNeXZdzqpjYjZKokXdXk6PSlt6GtB', 'downloaded_file.png');
+downloadFile('1pGShD90SrAnFNYKI4C5nKo6xHRUs_Vt7', 'downloaded_file.png');
