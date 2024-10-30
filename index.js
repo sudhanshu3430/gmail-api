@@ -18,7 +18,7 @@ oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 // Function to create and send the email
 const sendMail = async (options) => {
     try {
-        const accessToken = await oAuth2Client.getAccessToken();
+        // const accessToken = await oAuth2Client.getAccessToken();
 
         // Create transporter with OAuth2
         const transporter = nodemailer.createTransport({
@@ -29,7 +29,7 @@ const sendMail = async (options) => {
                 clientId: CLIENT_ID,
                 clientSecret: CLIENT_SECRET,
                 refreshToken: REFRESH_TOKEN,
-                accessToken: accessToken.token,
+                // accessToken: accessToken.token,
             },
         });
 
